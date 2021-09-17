@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.edu.cqu.letao.mapper.CmdtyDetailsMapper">
+
+    <select id="showCommodity" resultType="cn.edu.cqu.letao.entity.vo.CommodityVO">
+        SELECT cmdty_name,cmdty_price,cmdty_volume,cmdty_stock,cmdty_prmt,cmdty_details,cmdty_details_ID,cmdty_prev
+        FROM cmdty_details d
+                 JOIN cmdty c
+                      ON d.cmdty_id = c.cmdty_id
+        WHERE c.cmdty_id =#{cmdty_id}
+    </select>
+
+
+</mapper>

@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.edu.cqu.letao.mapper.OrderFormMapper">
+    <select id="getShopId" resultType="cn.edu.cqu.letao.entity.OrderForm">
+
+            SELECT shop_ID
+            FROM cmdty_details d
+                     JOIN cmdty c
+                          ON d.cmdty_id = c.cmdty_id
+            WHERE cmdty_details_ID =#{cmdty_details_ID}
+    </select>
+
+    <select id="showOrders" resultType="cn.edu.cqu.letao.entity.vo.OrdersVO">
+
+        SELECT shop_name,log_state,cmdty_num,cmdty_date,cmdty_price,cmdty_prev,cmdty_prmt,cmdty_name
+        FROM order_form o
+                 INNER JOIN shop s ON o.shop_ID=s.shop_ID
+                 INNER JOIN cmdty_details c ON o.cmdty_details_ID=c.cmdty_details_ID
+                 LEFT JOIN cmdty t ON c.cmdty_ID=t.cmdty_ID
+        WHERE o.user_ID=#{userId}
+          AND o.log_state="已完成"
+        ORDER BY o.cmdty_date DESC
+    </select>
+
+    <select id="orderState" resultType="cn.edu.cqu.letao.entity.vo.OrdersVO">
+
+        SELECT shop_name,log_state,cmdty_num,cmdty_date,cmdty_price,cmdty_prev,cmdty_prmt,cmdty_name
+        FROM order_form o
+                 INNER JOIN shop s ON o.shop_ID=s.shop_ID
+                 INNER JOIN cmdty_details c ON o.cmdty_details_ID=c.cmdty_details_ID
+                 LEFT JOIN cmdty t ON c.cmdty_ID=t.cmdty_ID
+        WHERE o.user_ID=#{userId}
+          AND o.log_state="未发货" or o.log_state="已发货"
+        ORDER BY o.cmdty_date DESC
+    </select>
+
+    <select id="sellerOrder" resultType="cn.edu.cqu.letao.entity.vo.sellerOrderVO">
+        SELECT order_ID,user_address,order_state,log_state,cmdty_details_ID,cmdty_num,cmdty_date,cmdty_details
+        FROM order_form o
+                 INNER JOIN USER  u ON o.user_ID=u.user_ID
+                 INNER JOIN cmdty c ON o.cmdty_details_ID=c.cmdty_ID
+
+        WHERE o.shop_ID=#{shopID}
+        ORDER BY o.cmdty_date DESC
+    </select>
+</mapper>

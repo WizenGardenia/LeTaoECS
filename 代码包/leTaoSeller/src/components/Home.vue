@@ -1,0 +1,152 @@
+<template>
+  <el-container>
+    <!-- 头部 -->
+    <el-header>
+      <div>
+        <img src="../assets/logo.png" alt />
+        <span>Ali99电商后台管理系统</span>
+      </div>
+      <el-button type="info" @click="logout">退出</el-button>
+    </el-header>
+    <!-- 主体 -->
+    <el-container>
+      <!-- 侧边栏 -->
+      <el-aside :width="isCollapse ? '64px' : '200px'">
+        <div class="toggle-button" @click="togleCollapse">|||</div>
+        <el-menu
+      background-color="#613030"
+      text-color="#fff"
+      active-text-color="#ffd04b"
+      :collapse=isCollapse
+      :collapse-transition="false"
+      router
+      default-active="/1-1">
+      <el-menu-item index="1">
+        <template slot="title">
+          <i class="el-icon-user"></i>
+          <span>卖家系统</span>
+        </template>
+        </el-menu-item>
+        <el-menu-item index="2">
+          <template slot="title">
+              <i class="el-icon-coin"></i>
+              信息编辑
+              </template>
+        </el-menu-item>
+        <el-menu-item index="3">
+          <template slot="title">
+              <i class="el-icon-s-platform"></i>
+              店铺管理
+              </template>
+        </el-menu-item>
+      
+
+      <el-menu-item index="4">
+        <i class="el-icon-s-order"></i>
+        <span slot="title">订单管理</span>
+      </el-menu-item>
+
+      <el-menu-item index="5">
+        <i class="el-icon-goods"></i>
+        <span slot="title">商品管理</span>
+      </el-menu-item>
+     
+    </el-menu>
+
+      </el-aside>
+      <!-- 内容主体 -->
+      <el-main>
+        <router-view></router-view>
+      </el-main>
+    </el-container>
+  </el-container>
+</template>
+
+<script>
+export default {
+  data () {
+    return {
+      // 左侧菜单数据
+      menuList: [],
+      // 默认不折叠
+      isCollapse: false,
+      // 被激活导航地址
+      activePath: ''
+    }
+  },
+  created () {
+    this.getMenuList()
+    this.activePath = window.sessionStorage.getItem('activePath')
+  },
+  methods: {
+    logout () {
+      // 清空token
+      window.sessionStorage.clear()
+      this.$router.push('/login')
+    },
+    // 获取请求菜单
+    async getMenuList () {
+      const { data: res } = await this.$http.get('menus')
+      if (res.meta.status !== 200) return this.$message.error(res.meta.msg)
+      this.menuList = res.data
+      // console.log(res)
+    },
+    // 菜单的折叠与展开
+    togleCollapse () {
+      this.isCollapse = !this.isCollapse
+    },
+    // 保存连接的激活地址
+    saveNavState (activePath) {
+      window.sessionStorage.setItem('activePath', activePath)
+    }
+  }
+}
+</script>
+
+<style lang="less" scoped>
+.el-container {
+  height: 100%;
+}
+.el-header {
+  background-color: #373f41;
+  display: flex;
+  justify-content: space-between;
+  padding-left: 0;
+  align-items: center;
+  color: #fff;
+  font-size: 20px;
+  > div {
+    display: flex;
+    align-items: center;
+    img {
+      height: 40px;
+    }
+    span {
+      margin-left: 15px;
+    }
+  }
+}
+.el-aside {
+  background-color: #333744;
+
+  .el-menu {
+    border: none;
+  }
+}
+.el-main {
+  background-color: #eaedf1;
+}
+.iconfont{
+  margin-right: 10px;
+}
+.toggle-button {
+  background-color: #4A5064;
+  font-size: 10px;
+  line-height: 24px;
+  color: #fff;
+  text-align: center;
+  letter-spacing: 0.2em;
+  // 鼠标放上去变成小手
+  cursor: pointer;
+}
+</style>

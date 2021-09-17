@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.edu.cqu.letao.mapper.CartMapper">
+
+    <select id="addCommodity">
+        INSERT INTO Cart
+            (user_ID, cmdty_ID, cmdty_num) VALUES (#{user_ID}, #{cmdty_ID}, #{number})
+    </select>
+
+    <select id="deleteCommodity">
+        DELETE FROM Cart
+        WHERE cart_ID = #{cart_ID}
+    </select>
+
+    <select id="showInformation" resultType="cn.edu.cqu.letao.entity.Cart">
+        SELECT cart_ID, user_ID, cmdty_ID, cmdty_num
+        FROM Cart
+        WHERE cart_ID = #{cart_ID}
+    </select>
+
+    <select id="isCartIDExist" resultType="java.lang.Integer">
+        SELECT cart_ID
+        FROM Cart
+        WHERE user_ID = #{user_ID} AND cmdty_ID = #{cmdty_ID}
+    </select>
+
+    <select id="getID" resultType="java.lang.Integer">
+        SELECT cart_ID
+        FROM Cart
+        WHERE user_ID = #{user_ID} AND cmdty_ID = #{cmdty_ID}
+    </select>
+
+    <select id="getCartInfo" resultType="cn.edu.cqu.letao.entity.Cart">
+        SELECT cmdty_ID,cmdty_num,user_ID
+        FROM Cart
+        WHERE user_ID=#{user_ID} AND cmdty_ID=#{cmdty_ID}
+    </select>
+    <select id="cartCmdty" resultType="cn.edu.cqu.letao.entity.CartCommodity">
+    SELECT cmdty_name,cmdty_prev,cmdty_details,cmdty_num,c.cmdty_ID
+    FROM cart c
+    JOIN cmdty t ON c.cmdty_ID=t.cmdty_ID
+    WHERE user_ID=#{user_ID} AND c.cmdty_ID=#{cmdty_ID}
+    </select>
+
+    <select id="cartCmdties" resultType="cn.edu.cqu.letao.entity.CartCommodity">
+        SELECT cmdty_name,cmdty_prev,cmdty_details,cmdty_num,c.cmdty_ID,cart_ID
+        FROM cart c
+                 JOIN cmdty t ON c.cmdty_ID=t.cmdty_ID
+        WHERE user_ID=#{user_ID}
+    </select>
+    <select id="getCartId" resultType="java.lang.Integer">
+    SELECT cart_ID
+    FROM cart
+    WHERE user_ID=2 AND cmdty_ID=8
+</select>
+</mapper>

@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.edu.cqu.letao.mapper.CmdtyMapper">
+    <select id="findByType" resultType="cn.edu.cqu.letao.entity.Cmdty">
+
+        SELECT cmdty_name,cmdty_type,cmdty_prev,cmdty_ID,cmdty_details
+        FROM CMDTY
+        WHERE cmdty_type=#{cmdty_type}
+    </select>
+
+    <select id="findByName" resultType="cn.edu.cqu.letao.entity.Cmdty">
+
+        SELECT cmdty_name,cmdty_type,cmdty_prev,cmdty_ID,cmdty_details
+        FROM CMDTY
+        WHERE cmdty_name=#{cmdty_name}
+    </select>
+
+    <select id="showAll" resultType="cn.edu.cqu.letao.entity.Cmdty">
+        SELECT cmdty_name,cmdty_ID,cmdty_type,cmdty_prev,cmdty_details
+        FROM cmdty
+        WHERE cmdty_details!= "null"
+    </select>
+
+
+</mapper>

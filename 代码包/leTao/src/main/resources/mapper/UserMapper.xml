@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.edu.cqu.letao.mapper.UserMapper">
+
+    <select id="register">
+        INSERT INTO USER
+            (user_username, user_password, user_type, user_state) VALUES (#{username}, #{password}, #{user_type}, TRUE)
+    </select>
+
+    <select id="showInformation" resultType="cn.edu.cqu.letao.entity.User">
+        SELECT user_ID, user_username, user_password, user_type, user_state, user_nickname, user_telephone, user_account, user_address, user_perference
+        FROM USER
+        WHERE user_username = #{username}
+    </select>
+
+    <select id="isUsernameExist" resultType="cn.edu.cqu.letao.entity.User">
+        SELECT user_ID
+        FROM USER
+        WHERE user_username = #{username}
+    </select>
+
+    <select id="getID" resultType="java.lang.Integer">
+        SELECT user_ID
+        FROM USER
+        WHERE user_username = #{username}
+    </select>
+
+    <select id="getPassword" resultType="java.lang.String">
+        SELECT user_password
+        FROM USER
+        WHERE user_username = #{username}
+    </select>
+
+    <select id="getType" resultType="java.lang.Integer">
+        SELECT user_type
+        FROM USER
+        WHERE user_username = #{username}
+    </select>
+
+    <select id="changeNickname">
+        UPDATE USER
+        SET user_nickname = #{nickname}
+        WHERE user_username = #{username}
+    </select>
+
+    <select id="changePassword">
+        UPDATE USER
+        SET user_password = #{newPassword}
+        WHERE user_username = #{username}
+    </select>
+
+    <select id="changeTelephone">
+        UPDATE USER
+        SET user_telehone = #{newTelephone}
+        WHERE user_username = #{username}
+    </select>
+
+    <select id="changeAddress">
+        UPDATE USER
+        SET user_address = #{newAddress}
+        WHERE user_username = #{username}
+    </select>
+
+</mapper>
